@@ -30,12 +30,14 @@ public class BubbleShoot : MonoBehaviour
     {
         if (gameManager.GameModeID != 0) return;
 
-        if (Input.GetMouseButtonDown(0)) // Left mouse click
+        if (Input.GetMouseButtonDown(0) && !gameManager.inputDisabled) // Left mouse click
         {
             ShootBubble();
         }
-
-        AimGun();
+        if (!gameManager.inputDisabled)
+        {
+            AimGun();
+        }
 
 
         if (currentBubble == null) return;

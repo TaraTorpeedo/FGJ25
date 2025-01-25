@@ -29,7 +29,7 @@ public class PlatformMiniGameManager : MonoBehaviour
     {
         if (gameManager.GameModeID != 1) return;
 
-        if(Input.GetKey(KeyCode.A)) { 
+        if(Input.GetKey(KeyCode.A) && !gameManager.inputDisabled) { 
             foreach(GameObject platform in Platforms)
             {
                 if (platform.transform.rotation.z < 0.16f)
@@ -38,7 +38,7 @@ public class PlatformMiniGameManager : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && !gameManager.inputDisabled)
         {
             foreach (GameObject platform in Platforms)
             {

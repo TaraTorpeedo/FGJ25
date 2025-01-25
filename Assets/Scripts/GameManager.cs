@@ -25,6 +25,12 @@ public class GameManager : MonoBehaviour
 
     public int FailedShoots = 0;
 
+    public InventoryManager inventoryManager;
+
+    public MainMenu mainMenu;
+
+    public bool inputDisabled;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,12 +40,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            mainMenu.ActivateMainMenu();
+        }
+        if (Input.GetKeyDown(KeyCode.M) && !inputDisabled)
         {
             bubbleWall.ResetBubbleWall();
         }
 
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O) && !inputDisabled)
         {
             GameModeID = 0;
             mainCamera.transform.position = bubbleShoot.cameraTransform.position;
@@ -48,13 +58,14 @@ public class GameManager : MonoBehaviour
                 bubbleShoot.SpawnNewBubble();
             }
         }
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && !inputDisabled)
         {
             GameModeID = 1;
             mainCamera.transform.position = PlatformMiniGame.cameraTransform.position;
             StartCoroutine(PlatformMiniGame.DropNewBubble());
         }
         BubblesInStorage = RedBubbles + BlueBubbles + GreenBubbles + YellowBubbles;
+        inventoryManager.CheckBallCountToInventory(RedBubbles, GreenBubbles, BlueBubbles, YellowBubbles);
 
         if(FailedShoots >= 5)
         {
@@ -90,13 +101,22 @@ public class GameManager : MonoBehaviour
         if (BubblesInStorage <= maxBubbles)
         {
             if (bubbleID == 0)
+            {
                 RedBubbles++;
+            }
             else if (bubbleID == 1)
+            {
                 GreenBubbles++;
+            }
             else if (bubbleID == 2)
+            {
                 BlueBubbles++;
+            }
             else if (bubbleID == 3)
+            {
                 YellowBubbles++;
+            }
+
         }
     }
 
