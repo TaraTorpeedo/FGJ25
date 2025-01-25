@@ -21,6 +21,8 @@ public class BubbleShoot : MonoBehaviour
 
     public bool isLoaded;
 
+    public AudioSource audioSource;
+
     void Start()
     {
         SpawnNewBubble();
@@ -85,7 +87,7 @@ public class BubbleShoot : MonoBehaviour
             gameManager.DecreaseBubbles(bubbleColorManager.currentColorID);
 
             isLoaded = false;
-
+            PlayPopSound();
             // Add Rigidbody force to the bubble
             Rigidbody rb = currentBubble.GetComponent<Rigidbody>();
 
@@ -96,6 +98,13 @@ public class BubbleShoot : MonoBehaviour
             currentBubble = null;
             Invoke(nameof(SpawnNewBubble), 1f); // Spawn next bubble after a delay
         }
+    }
+
+    void PlayPopSound()
+    {
+        float rndPitch = Random.Range(0.8f, 1.2f);
+        audioSource.pitch = rndPitch;
+        audioSource.Play();
     }
 
 }

@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
 
     public bool inputDisabled;
 
+    public List<Bubble> bubblesToPop = new List<Bubble>();
+
+    public AudioSource WallBubblePopAudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,7 +71,7 @@ public class GameManager : MonoBehaviour
         BubblesInStorage = RedBubbles + BlueBubbles + GreenBubbles + YellowBubbles;
         inventoryManager.CheckBallCountToInventory(RedBubbles, GreenBubbles, BlueBubbles, YellowBubbles);
 
-        if(FailedShoots >= 5)
+        if (FailedShoots >= 5)
         {
             FailedShoots = 0;
             bubbleWall.ResetBubbleWall();
@@ -76,7 +80,7 @@ public class GameManager : MonoBehaviour
 
     public void DecreaseBubbles(int bubbleID)
     {
-        if(bubbleID == 0 && RedBubbles > 0)
+        if (bubbleID == 0 && RedBubbles > 0)
         {
             RedBubbles--;
         }
@@ -140,6 +144,7 @@ public class GameManager : MonoBehaviour
 
         // Add this bubble to the connected list
         connectedBubbles.Add(bubble);
+        bubblesToPop.Add(bubble);
 
         // Find neighbors of the bubble
         Collider[] hits = Physics.OverlapSphere(bubble.transform.position, neighborRadius);
@@ -158,4 +163,18 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void StartPopBubbles()
+    {
+        StartCoroutine(PopBubbles(bubblesToPop));
+        bubblesToPop = new List<Bubble>();
+    }
+
+    public IEnumerator PopBubbles(List<Bubble> connectedBubbles)
+    {
+        foreach (Bubble bubble in connectedBubbles)
+        {
+            bubble.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
 }

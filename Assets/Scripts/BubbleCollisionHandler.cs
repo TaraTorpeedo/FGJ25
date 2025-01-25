@@ -7,6 +7,7 @@ public class BubbleCollisionHandler : Bubble
     public int minMatchCount = 3;
     public GameManager gameManager;
 
+
     bool isSnapped = false;
 
     private void OnCollisionEnter(Collision collision)
@@ -24,15 +25,36 @@ public class BubbleCollisionHandler : Bubble
 
                     if (connectedBubbles.Count >= 3)
                     {
-                        foreach (Bubble bubble in connectedBubbles)
-                        {
-                            bubble.gameObject.SetActive(false);
-                        }
+                        gameManager.StartPopBubbles();
+                        //foreach (Bubble bubble in connectedBubbles)
+                        //{
+                        //    bubble.gameObject.SetActive(false);
+                        //
+                        //}
                     }
 
                 }
             }
         }
+    }
+
+    IEnumerator PopBubbles(List<Bubble> connectedBubbles)
+    {
+            Debug.Log(connectedBubbles.Count);
+        do
+        {
+
+            for (int i = 0; connectedBubbles.Count < i; ++i)
+            {
+                Debug.Log("as2d");
+                yield return new WaitForSeconds(0.5f);
+                connectedBubbles[i].gameObject.SetActive(false);
+                connectedBubbles.Remove(connectedBubbles[i]);
+
+                Debug.Log("asd");
+            }
+
+        } while (connectedBubbles.Count <= 0);
     }
 
     void SnapToWall(GameObject WallBubble)
