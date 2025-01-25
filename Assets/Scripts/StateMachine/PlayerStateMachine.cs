@@ -74,7 +74,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     protected void Awake()
     {
-        Cursor.visible = false;
         m_playerInput =  new PlayerInput();
 
         m_stateFactory = new PlayerStateFactory(this);
@@ -102,7 +101,11 @@ public class PlayerStateMachine : MonoBehaviour
 
     protected void Start() => m_characterController.Move(m_appliedMovement * Time.deltaTime);
 
-    protected void OnEnable() => m_playerInput.CharacterControls.Enable();
+    protected void OnEnable()
+    {
+        Cursor.visible = false;
+        m_playerInput.CharacterControls.Enable();
+    }
 
     protected void OnDisable() => m_playerInput.CharacterControls.Disable();
 
