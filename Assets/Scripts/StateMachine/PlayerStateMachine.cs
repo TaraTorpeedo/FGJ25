@@ -130,8 +130,11 @@ public class PlayerStateMachine : MonoBehaviour
 
         if (m_isMovementPressed)
         {
-            var targetRotation = Quaternion.LookRotation(positionToLookAt);
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, m_rotationFactorPerFrame * Time.deltaTime);
+            if (positionToLookAt.sqrMagnitude > .01f)
+            {
+                var targetRotation = Quaternion.LookRotation(positionToLookAt);
+                transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, m_rotationFactorPerFrame * Time.deltaTime);
+            }
         }
     }
 
