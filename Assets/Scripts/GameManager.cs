@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public Camera mainCamera;
+
+    public BubbleShoot bubbleShoot;
+    public PlatformMiniGameManager PlatformMiniGame;
 
     public int maxBubbles = 10;
     public int YellowBubbles = 0;
@@ -11,9 +15,11 @@ public class GameManager : MonoBehaviour
     public int BlueBubbles = 0;
     public int GreenBubbles = 0;
 
-    public int BubblesInStorage = 0;
+    public int BubblesInStorage = 1;
 
-    public GameObject WallBubblePrefab;
+    public float neighborRadius = 1.05f; // Adjust this to match bubble spacing
+
+    public int GameModeID = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -24,34 +30,60 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (BubblesInStorage < maxBubbles)
+        if (Input.GetKeyDown(KeyCode.O))
         {
-
-            if (Input.GetKeyUp(KeyCode.U))
+            GameModeID = 0;
+            mainCamera.transform.position = bubbleShoot.cameraTransform.position;
+            if (!bubbleShoot.isLoaded)
             {
-                YellowBubbles++;
+                bubbleShoot.SpawnNewBubble();
             }
-            if (Input.GetKeyUp(KeyCode.I))
-            {
-                RedBubbles++;
-            }
-            if (Input.GetKeyUp(KeyCode.O))
-            {
-                BlueBubbles++;
-            }
-            if (Input.GetKeyUp(KeyCode.P))
-            {
-                GreenBubbles++;
-            }
-
-            //Maybew some other way :D
-
-            BubblesInStorage = RedBubbles + BlueBubbles + GreenBubbles + YellowBubbles;
-
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameModeID = 1;
+            mainCamera.transform.position = PlatformMiniGame.cameraTransform.position;
+            StartCoroutine(PlatformMiniGame.DropNewBubble());
+        }
+        BubblesInStorage = RedBubbles + BlueBubbles + GreenBubbles + YellowBubbles;
     }
 
-    public float neighborRadius = 1.05f; // Adjust this to match bubble spacing
+    public void DecreaseBubbles(int bubbleID)
+    {
+        if(bubbleID == 0 && RedBubbles > 0)
+        {
+            RedBubbles--;
+        }
+        else if (bubbleID == 1 && GreenBubbles > 0)
+        {
+
+            GreenBubbles--;
+        }
+        else if (bubbleID == 2 && BlueBubbles > 0)
+        {
+
+            BlueBubbles--;
+        }
+        else if (bubbleID == 3 && YellowBubbles > 0)
+        {
+
+            YellowBubbles--;
+        }
+    }
+    public void IncreaseBubbles(int bubbleID)
+    {
+        if (BubblesInStorage <= maxBubbles)
+        {
+            if (bubbleID == 0)
+                RedBubbles++;
+            else if (bubbleID == 1)
+                GreenBubbles++;
+            else if (bubbleID == 2)
+                BlueBubbles++;
+            else if (bubbleID == 3)
+                YellowBubbles++;
+        }
+    }
 
     public List<Bubble> FindConnectedBubbles(Bubble startBubble)
     {

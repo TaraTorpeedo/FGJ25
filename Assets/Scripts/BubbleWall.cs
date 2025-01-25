@@ -54,7 +54,7 @@ public class BubbleWall : MonoBehaviour
         if (renderer != null)
         {
             // Assign a random color from the array
-            renderer.material.color = bubbleColorManager.AssignRandomColor();
+            renderer.material.color = bubbleColorManager.AssignRandomColorToWall();
         }
     }
 
@@ -64,7 +64,7 @@ public class BubbleWall : MonoBehaviour
         Vector3 Size = new Vector3(rows, columns, 1);
         Vector3 Pos = new Vector3(transform.position.x + rows/2, transform.position.y - rows / 2, transform.position.z);
 
-        Gizmos.color = Color.red;
+        Gizmos.color = new Color(0,0.8f,1f,.2f);
         Gizmos.DrawCube(Pos, Size);
     }
 

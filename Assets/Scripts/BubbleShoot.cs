@@ -8,6 +8,7 @@ public class BubbleShoot : MonoBehaviour
     public Transform spawnPoint;      // Position where the bubble spawns
     public float shootSpeed = 20f;    // Speed of the shot bubble
     public Camera mainCamera;         // Reference to the main camera
+    public Transform cameraTransform;
 
     private GameObject currentBubble;
 
@@ -18,6 +19,8 @@ public class BubbleShoot : MonoBehaviour
 
     public GameManager gameManager;
 
+    public bool isLoaded;
+
     void Start()
     {
         SpawnNewBubble();
@@ -25,6 +28,8 @@ public class BubbleShoot : MonoBehaviour
 
     void Update()
     {
+        if (gameManager.GameModeID != 0) return;
+
         if (Input.GetMouseButtonDown(0)) // Left mouse click
         {
             ShootBubble();
@@ -37,16 +42,19 @@ public class BubbleShoot : MonoBehaviour
             currentBubble.transform.position = spawnPoint.position;
     }
 
-    void SpawnNewBubble()
+    public void SpawnNewBubble()
     {
+
         if (currentBubble != null) return;
-        if (gameManager.BubblesInStorage < 0) return;
+        if (gameManager.BubblesInStorage <= 0) return;
 
         bubblePrefab.GetComponent<BubbleCollisionHandler>().gameManager = gameManager;
 
         currentBubble = Instantiate(bubblePrefab, spawnPoint.position, Quaternion.identity);
 
         currentBubble.GetComponent<Renderer>().material.color = bubbleColorManager.AssignRandomColor();
+
+        isLoaded = true;
     }
 
     void AimGun()
@@ -71,6 +79,10 @@ public class BubbleShoot : MonoBehaviour
             StartCoroutine(currentBubble.GetComponent<BubbleCollisionHandler>().DestroyBubble());
 
             Vector3 direction = (hit.point - spawnPoint.position).normalized;
+
+            gameManager.DecreaseBubbles(bubbleColorManager.currentColorID);
+
+            isLoaded = false;
 
             // Add Rigidbody force to the bubble
             Rigidbody rb = currentBubble.GetComponent<Rigidbody>();

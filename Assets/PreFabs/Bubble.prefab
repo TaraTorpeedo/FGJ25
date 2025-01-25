@@ -147,6 +147,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minMatchCount: 3
-  bubbleLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  gameManager: {fileID: 0}
