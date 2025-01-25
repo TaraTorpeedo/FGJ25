@@ -29,6 +29,7 @@ public class BubbleCollisionHandler : Bubble
                             bubble.gameObject.SetActive(false);
                         }
                     }
+
                 }
             }
         }
@@ -37,6 +38,7 @@ public class BubbleCollisionHandler : Bubble
     void SnapToWall(GameObject WallBubble)
     {
         isSnapped = true;
+
 
         Destroy(GetComponent<Rigidbody>());
         transform.SetParent(WallBubble.transform);
@@ -50,6 +52,7 @@ public class BubbleCollisionHandler : Bubble
         if(!isSnapped)
         {
             Destroy(gameObject);
+
         }
     }
 }

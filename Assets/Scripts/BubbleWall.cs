@@ -13,11 +13,18 @@ public class BubbleWall : MonoBehaviour
 
     public BubbleColorManager bubbleColorManager;
 
+    List<GameObject> bubbles = new List<GameObject>();
+
+    int bubblesCount;
+    int bubblesCountNew;
+
+
     void Start()
     {
         GenerateBubbleWall();
-    }
 
+        bubblesCount = bubbles.Count;
+    }
 
     void GenerateBubbleWall()
     {
@@ -40,6 +47,8 @@ public class BubbleWall : MonoBehaviour
 
                 // Instantiate the bubble
                 GameObject bubble = Instantiate(bubblePrefab, position, Quaternion.identity, transform);
+
+                bubbles.Add(bubble);
 
                 // Assign a random color
                 AssignRandomColor(bubble);
@@ -66,6 +75,16 @@ public class BubbleWall : MonoBehaviour
 
         Gizmos.color = new Color(0,0.8f,1f,.2f);
         Gizmos.DrawCube(Pos, Size);
+    }
+
+    public void ResetBubbleWall()
+    {
+        foreach (var bubble in bubbles)
+        {
+            Destroy(bubble);
+        }
+
+        GenerateBubbleWall();
     }
 
 }

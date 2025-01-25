@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public BubbleShoot bubbleShoot;
     public PlatformMiniGameManager PlatformMiniGame;
 
+    public BubbleWall bubbleWall;
+
     public int maxBubbles = 10;
     public int YellowBubbles = 0;
     public int RedBubbles = 0;
@@ -21,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     public int GameModeID = 0;
 
+    public int FailedShoots = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +34,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            bubbleWall.ResetBubbleWall();
+        }
+
         if (Input.GetKeyDown(KeyCode.O))
         {
             GameModeID = 0;
@@ -46,6 +55,12 @@ public class GameManager : MonoBehaviour
             StartCoroutine(PlatformMiniGame.DropNewBubble());
         }
         BubblesInStorage = RedBubbles + BlueBubbles + GreenBubbles + YellowBubbles;
+
+        if(FailedShoots >= 5)
+        {
+            FailedShoots = 0;
+            bubbleWall.ResetBubbleWall();
+        }
     }
 
     public void DecreaseBubbles(int bubbleID)
@@ -118,6 +133,9 @@ public class GameManager : MonoBehaviour
             {
                 FloodFill(neighbor, connectedBubbles, visited);
             }
+
         }
+
     }
+
 }
