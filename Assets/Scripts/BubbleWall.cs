@@ -9,7 +9,6 @@ public class BubbleWall : MonoBehaviour
     public int columns = 10;        // Number of columns in the bubble wall
     public float bubbleSpacing = 1.1f; // Spacing between bubbles
 
-    public bool useRandomness;
     public float randomness = 0.1f; // Random offset for bubble positions
 
     public BubbleColorManager bubbleColorManager;
@@ -18,6 +17,7 @@ public class BubbleWall : MonoBehaviour
     {
         GenerateBubbleWall();
     }
+
 
     void GenerateBubbleWall()
     {
@@ -32,13 +32,11 @@ public class BubbleWall : MonoBehaviour
                     transform.position.z
                 );
 
-                if (useRandomness)
-                {
-                    // Add randomness to the position
-                    position.x += Random.Range(-randomness, randomness);
-                    position.y += Random.Range(-randomness, randomness);
-                    position.z += Random.Range(-randomness, randomness);
-                }
+                // Add randomness to the position
+                position.x += Random.Range(-randomness, randomness);
+                position.y += Random.Range(-randomness, randomness);
+                position.z += Random.Range(-randomness, randomness);
+
 
                 // Instantiate the bubble
                 GameObject bubble = Instantiate(bubblePrefab, position, Quaternion.identity, transform);
@@ -60,6 +58,7 @@ public class BubbleWall : MonoBehaviour
         }
     }
 
+
     private void OnDrawGizmos()
     {
         Vector3 Size = new Vector3(rows, columns, 1);
@@ -68,4 +67,5 @@ public class BubbleWall : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawCube(Pos, Size);
     }
+
 }

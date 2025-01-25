@@ -16,6 +16,8 @@ public class BubbleShoot : MonoBehaviour
     public GameObject GunRotator;
     public LayerMask aimLayer;
 
+    public GameManager gameManager;
+
     void Start()
     {
         SpawnNewBubble();
@@ -38,6 +40,9 @@ public class BubbleShoot : MonoBehaviour
     void SpawnNewBubble()
     {
         if (currentBubble != null) return;
+        if (gameManager.BubblesInStorage < 0) return;
+
+        bubblePrefab.GetComponent<BubbleCollisionHandler>().gameManager = gameManager;
 
         currentBubble = Instantiate(bubblePrefab, spawnPoint.position, Quaternion.identity);
 
@@ -63,6 +68,7 @@ public class BubbleShoot : MonoBehaviour
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
+            StartCoroutine(currentBubble.GetComponent<BubbleCollisionHandler>().DestroyBubble());
 
             Vector3 direction = (hit.point - spawnPoint.position).normalized;
 
@@ -77,4 +83,5 @@ public class BubbleShoot : MonoBehaviour
             Invoke(nameof(SpawnNewBubble), 1f); // Spawn next bubble after a delay
         }
     }
+
 }

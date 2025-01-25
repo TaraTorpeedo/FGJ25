@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 2047342332381739948}
   - component: {fileID: 7756918036703111179}
   - component: {fileID: 1279979613593749986}
+  - component: {fileID: -4282169810693723535}
   m_Layer: 0
   m_Name: Bubble
-  m_TagString: Untagged
+  m_TagString: MyBubble
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,3 +134,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-4282169810693723535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5586467149141898756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e44f45c6f0207b4fa95c6f922d7e584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minMatchCount: 3
+  bubbleLayer:
+    serializedVersion: 2
+    m_Bits: 64
