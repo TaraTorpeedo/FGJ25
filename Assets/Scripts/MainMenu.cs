@@ -2,15 +2,13 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject[] Windows;
-    public GameObject MainMenuCanvas;
-    public GameManager gameManager;
+    public GameObject creditsPanel;
 
-    public GameObject GameUI;
     public AudioSource MusicSource;
 
     public Slider MusicSlider;
@@ -18,27 +16,22 @@ public class MainMenu : MonoBehaviour
 
     public CinemachineFreeLook CinemachineCamera;
 
-    public void ActivateWindow(GameObject Window)
+  
+    public void OpenCredits()
     {
-        foreach (GameObject window in Windows)
-        {
-            window.SetActive(false);
-        }
-        Window.SetActive(true);
-    }
-    public void PlayButton(GameObject Window)
-    {
-        gameManager.inputDisabled = false;
-        Window.SetActive(false);
-        GameUI.SetActive(true);
+        creditsPanel.SetActive(true);
     }
 
-    public void ActivateMainMenu()
+    public void CloseCredits()
     {
-        gameManager.inputDisabled = true;
-        MainMenuCanvas.SetActive(true);
-        GameUI.SetActive(false);
+        creditsPanel.SetActive(false);
     }
+
+    public void PlayButton()
+    {
+        SceneManager.LoadScene(1);
+    }
+
 
     public void ChangeMusicVolume()
     {
@@ -47,7 +40,7 @@ public class MainMenu : MonoBehaviour
 
     public void QuitGame()
     {
-
+        Application.Quit();
     }
 
     public void ChangeCameraYSpeed(Slider slider)
