@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class MainMenu : MonoBehaviour
 
     public Slider MusicSlider;
     public Slider SFXSlider;
+
+    public CinemachineFreeLook CinemachineCamera;
 
     public void ActivateWindow(GameObject Window)
     {
@@ -45,5 +48,23 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
 
+    }
+
+    public void ChangeCameraYSpeed(Slider slider)
+    {
+        CinemachineCamera.m_YAxis.m_MaxSpeed *= slider.value;
+    }
+    public void ChangeCameraXSpeed(Slider slider)
+    {
+        CinemachineCamera.m_XAxis.m_MaxSpeed *= slider.value;
+    }
+
+    public void InvertXAxis(Toggle toggle)
+    {
+        CinemachineCamera.m_XAxis.m_InvertInput = toggle.isOn;
+    }
+    public void InvertYAxis(Toggle toggle)
+    {
+        CinemachineCamera.m_YAxis.m_InvertInput = toggle.isOn;
     }
 }
