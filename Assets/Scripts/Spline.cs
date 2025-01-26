@@ -11,6 +11,12 @@ public class Spline : MonoBehaviour
     public int curveResolution = 20; // Number of points for curve smoothness
     public LineRenderer lineRenderer; // Optional: To visualize the spline
 
+    public ObjectMover objectMover;
+    public int countOfObjects;
+    public int SpawnRate;
+    public int speed;
+    public int slowdownDistance;
+
     private void OnDrawGizmos()
     {
         if (controlPoints == null || controlPoints.Count < 2)
@@ -37,6 +43,22 @@ public class Spline : MonoBehaviour
         if (lineRenderer != null)
         {
             UpdateLineRenderer();
+        }
+
+        StartCoroutine(SpawnObjects());
+    }
+
+    IEnumerator SpawnObjects()
+    {
+        for (int i = 0; i < countOfObjects; i++)
+        {
+            ObjectMover currentObject = Instantiate(objectMover);
+            currentObject.spline = this;
+
+            currentObject.speed = speed;
+            currentObject.SlowDownDistance = slowdownDistance;
+
+            yield return new WaitForSeconds(SpawnRate);
         }
     }
 
