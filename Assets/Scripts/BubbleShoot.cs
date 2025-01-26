@@ -1,5 +1,7 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BubbleShoot : MonoBehaviour
@@ -7,8 +9,10 @@ public class BubbleShoot : MonoBehaviour
     public GameObject bubblePrefab;    // The bubble prefab to shoot
     public Transform spawnPoint;      // Position where the bubble spawns
     public float shootSpeed = 20f;    // Speed of the shot bubble
-    public Camera mainCamera;         // Reference to the main camera
-    public Transform cameraTransform;
+    public Camera mainCamera;
+    public GameObject placeholderGun;
+    public GameObject rootObject;
+    public Transform bubbleShoot;
 
     private GameObject currentBubble;
 
@@ -23,10 +27,20 @@ public class BubbleShoot : MonoBehaviour
 
     public AudioSource audioSource;
 
-    void Start()
+    protected void OnEnable()
     {
+        //mainCamera.GetComponent<CinemachineBrain>().enabled = false;
+        //mainCamera.transform.position = bubbleShoot.position;
+        gameManager.GameModeID = 0;
         SpawnNewBubble();
     }
+
+    protected void OnDisable()
+    {
+        //mainCamera.GetComponent<CinemachineBrain>().enabled = true;
+        gameManager.GameModeID = -1;
+    }
+
 
     void Update()
     {
@@ -41,10 +55,17 @@ public class BubbleShoot : MonoBehaviour
             AimGun();
         }
 
+        if (Input.GetKeyDown(KeyCode.Q) && !gameManager.inputDisabled)
+        {
+            gameManager.SetCharacter(true);
+            placeholderGun.SetActive(true);
+            rootObject.SetActive(false);
+        }
 
         if (currentBubble == null) return;
             currentBubble.transform.position = spawnPoint.position;
     }
+
 
     public void SpawnNewBubble()
     {

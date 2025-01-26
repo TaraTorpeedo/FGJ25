@@ -60,15 +60,6 @@ public class GameManager : MonoBehaviour
         {
             bubbleWall.ResetBubbleWall();
         }
-
-        if(GameModeID == 0 && !inputDisabled)
-        {
-            mainCamera.transform.position = bubbleShoot.cameraTransform.position;
-            if (!bubbleShoot.isLoaded)
-            {
-                bubbleShoot.SpawnNewBubble();
-            }
-        }
        
         BubblesInStorage = RedBubbles + BlueBubbles + GreenBubbles + YellowBubbles;
         inventoryManager.CheckBallCountToInventory(RedBubbles, GreenBubbles, BlueBubbles, YellowBubbles);
