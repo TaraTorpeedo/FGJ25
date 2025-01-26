@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviour
     public GameObject m_character;
     public GameObject m_playerCamera;
 
-    public BubbleWall bubbleWall;
-
     public int maxBubbles = 10;
     public int YellowBubbles = 0;
     public int RedBubbles = 0;
@@ -37,11 +35,6 @@ public class GameManager : MonoBehaviour
 
     public AudioSource WallBubblePopAudio;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     public void SetCharacter(bool activate)
     { 
@@ -56,19 +49,9 @@ public class GameManager : MonoBehaviour
         {
             //mainMenu.ActivateMainMenu();
         }
-        if (Input.GetKeyDown(KeyCode.M) && !inputDisabled)
-        {
-            bubbleWall.ResetBubbleWall();
-        }
        
         BubblesInStorage = RedBubbles + BlueBubbles + GreenBubbles + YellowBubbles;
         inventoryManager.CheckBallCountToInventory(RedBubbles, GreenBubbles, BlueBubbles, YellowBubbles);
-
-        if (FailedShoots >= 5)
-        {
-            FailedShoots = 0;
-            bubbleWall.ResetBubbleWall();
-        }
     }
 
     public void DecreaseBubbles(int bubbleID)

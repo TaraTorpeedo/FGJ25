@@ -36,9 +36,4 @@ public class ActivatePlatformMiniGame : MonoBehaviour
             m_pressButtonInfo.SetActive(false);
         }
     }
-
-    private void OnDisable()
-    {
-        m_pressButtonInfo.SetActive(false);
-    }
 }

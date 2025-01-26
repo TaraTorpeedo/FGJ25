@@ -39,8 +39,8 @@ public class ActivateShootGame : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    private void OnEnable()
     {
-        m_pressButtonInfo.SetActive(false);
+        m_miniGame.SetActive(false);
     }
 }

@@ -30,8 +30,6 @@ public class BubbleShoot : MonoBehaviour
 
     protected void OnEnable()
     {
-        //mainCamera.GetComponent<CinemachineBrain>().enabled = false;
-        //mainCamera.transform.position = bubbleShoot.position;
         gameManager.GameModeID = 0;
         infoText.SetActive(true);  
         SpawnNewBubble();
@@ -39,9 +37,7 @@ public class BubbleShoot : MonoBehaviour
 
     protected void OnDisable()
     {
-        //mainCamera.GetComponent<CinemachineBrain>().enabled = true;
         gameManager.GameModeID = -1;
-        infoText.SetActive(false);
     }
 
 
@@ -60,9 +56,9 @@ public class BubbleShoot : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q) && !gameManager.inputDisabled)
         {
+            infoText.SetActive(false);
             gameManager.SetCharacter(true);
             placeholderGun.SetActive(true);
-            rootObject.SetActive(false);
         }
 
         if (currentBubble == null) return;
@@ -90,7 +86,6 @@ public class BubbleShoot : MonoBehaviour
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit_, Mathf.Infinity, aimLayer))
         {
-            Debug.Log(hit_.collider.name);
             Vector3 aimDirection = (hit_.point - GunRotator.transform.position).normalized;
             GunRotator.transform.rotation = Quaternion.LookRotation(aimDirection);
         }
