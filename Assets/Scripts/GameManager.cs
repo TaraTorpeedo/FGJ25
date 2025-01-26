@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     public BubbleShoot bubbleShoot;
     public PlatformMiniGameManager PlatformMiniGame;
+    public GameObject m_character;
+    public GameObject m_playerCamera;
 
     public BubbleWall bubbleWall;
 
@@ -21,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     public float neighborRadius = 1.05f; // Adjust this to match bubble spacing
 
-    public int GameModeID = 0;
+    public int GameModeID = -1;
 
     public int FailedShoots = 0;
 
@@ -41,6 +43,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void SetCharacter(bool activate)
+    { 
+        m_character.SetActive(activate);
+        m_playerCamera.SetActive(activate);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -53,21 +61,15 @@ public class GameManager : MonoBehaviour
             bubbleWall.ResetBubbleWall();
         }
 
-        if (Input.GetKeyDown(KeyCode.O) && !inputDisabled)
+        if(GameModeID == 0 && !inputDisabled)
         {
-            GameModeID = 0;
             mainCamera.transform.position = bubbleShoot.cameraTransform.position;
             if (!bubbleShoot.isLoaded)
             {
                 bubbleShoot.SpawnNewBubble();
             }
         }
-        if (Input.GetKeyDown(KeyCode.P) && !inputDisabled)
-        {
-            GameModeID = 1;
-            mainCamera.transform.position = PlatformMiniGame.cameraTransform.position;
-            StartCoroutine(PlatformMiniGame.DropNewBubble());
-        }
+       
         BubblesInStorage = RedBubbles + BlueBubbles + GreenBubbles + YellowBubbles;
         inventoryManager.CheckBallCountToInventory(RedBubbles, GreenBubbles, BlueBubbles, YellowBubbles);
 

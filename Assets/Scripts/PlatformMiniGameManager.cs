@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlatformMiniGameManager : MonoBehaviour
 {
     public GameManager gameManager;
-    public Transform cameraTransform;
 
     public GameObject[] Platforms;
 
@@ -17,20 +16,33 @@ public class PlatformMiniGameManager : MonoBehaviour
 
     public BubbleColorManager bubbleColorManager;
 
+    private float timer = 4f;
+
+    private float delay = 2f;
+
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         //StartCoroutine(DropNewBubble());
     }
 
-    // Update is called once per frame
-    void Update()
+    protected void OnEnable()
     {
-        if (gameManager.GameModeID != 1) return;
+        gameManager.GameModeID = 1;
+    }
 
-        if(Input.GetKey(KeyCode.A) && !gameManager.inputDisabled) { 
-            foreach(GameObject platform in Platforms)
+    protected void OnDisable()
+    {
+        gameManager.GameModeID = -1;
+    }
+
+    // Update is called once per frame
+    protected void Update()
+    {
+        if (Input.GetKey(KeyCode.A) && !gameManager.inputDisabled)
+        {
+            foreach (GameObject platform in Platforms)
             {
                 if (platform.transform.rotation.z < 0.16f)
                 {
@@ -49,24 +61,20 @@ public class PlatformMiniGameManager : MonoBehaviour
             }
         }
 
-    }
+        if (Input.GetKeyDown(KeyCode.Q) && !gameManager.inputDisabled)
+        {
+            gameManager.SetCharacter(true);
+            gameObject.SetActive(false);
+        }
 
-    public IEnumerator DropNewBubble()
-    {
-        if (gameManager.GameModeID == 1)
+        timer += Time.deltaTime;
+        if (timer >= 4f)
         {
             currentBubble = Instantiate(bubblePrefab, spawnPoint.position, Quaternion.identity);
             currentBubble.GetComponent<Rigidbody>().useGravity = true;
 
             currentBubble.GetComponent<Renderer>().material.color = bubbleColorManager.AssignRandomColorToWall();
-            yield return new WaitForSeconds(4);
-
-            StartCoroutine(DropNewBubble());
-        }
-        else
-        {
-            yield return new WaitForSeconds(4);
-            StartCoroutine(DropNewBubble());
+            timer = 0f;
         }
     }
 }
