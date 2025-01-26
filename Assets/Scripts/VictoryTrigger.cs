@@ -10,11 +10,13 @@ public class VictoryTrigger : MonoBehaviour
     [SerializeField] private GameObject player; 
     [SerializeField] private GameObject placeholderPlayer;
     [SerializeField] private GameObject playerCamera;
+    [SerializeField] private ParticleSystem confettiParticle;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             Debug.Log("Voitto Perkele!");
+            
 
             if (victoryUI != null)
             {
@@ -31,6 +33,11 @@ public class VictoryTrigger : MonoBehaviour
                 player.SetActive(false);
                 playerCamera.SetActive(false);
                 placeholderPlayer.SetActive(true);
+            }
+            
+            if (confettiParticle != null)
+            {
+                confettiParticle.Play();
             }
         }
     }
