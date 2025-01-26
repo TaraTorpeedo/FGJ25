@@ -15,6 +15,7 @@ public class PlatformMiniGameManager : MonoBehaviour
     private GameObject currentBubble;
 
     public BubbleColorManager bubbleColorManager;
+    public GameObject infoText;
 
     private float timer = 4f;
 
@@ -30,11 +31,13 @@ public class PlatformMiniGameManager : MonoBehaviour
     protected void OnEnable()
     {
         gameManager.GameModeID = 1;
+        infoText.SetActive(true);
     }
 
     protected void OnDisable()
     {
         gameManager.GameModeID = -1;
+        infoText.SetActive(false);
     }
 
     // Update is called once per frame

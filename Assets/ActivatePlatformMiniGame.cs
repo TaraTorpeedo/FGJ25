@@ -12,8 +12,7 @@ public class ActivatePlatformMiniGame : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Handle the collision with the character
-            Debug.Log("Character entered the trigger of the BoxCollider!");
+            m_pressButtonInfo.SetActive(true);
         }
     }
 
@@ -25,6 +24,7 @@ public class ActivatePlatformMiniGame : MonoBehaviour
             {
                 m_miniGame.SetActive(true);
                 m_manager.SetCharacter(false);
+                m_pressButtonInfo.SetActive(false);
             }
         }
     }
@@ -33,8 +33,12 @@ public class ActivatePlatformMiniGame : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Handle the collision with the character
-            Debug.Log("Character exit the trigger of the BoxCollider!");
+            m_pressButtonInfo.SetActive(false);
         }
+    }
+
+    private void OnDisable()
+    {
+        m_pressButtonInfo.SetActive(false);
     }
 }

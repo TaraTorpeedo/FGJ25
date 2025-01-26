@@ -26,12 +26,14 @@ public class BubbleShoot : MonoBehaviour
     public bool isLoaded;
 
     public AudioSource audioSource;
+    public GameObject infoText;
 
     protected void OnEnable()
     {
         //mainCamera.GetComponent<CinemachineBrain>().enabled = false;
         //mainCamera.transform.position = bubbleShoot.position;
         gameManager.GameModeID = 0;
+        infoText.SetActive(true);  
         SpawnNewBubble();
     }
 
@@ -39,6 +41,7 @@ public class BubbleShoot : MonoBehaviour
     {
         //mainCamera.GetComponent<CinemachineBrain>().enabled = true;
         gameManager.GameModeID = -1;
+        infoText.SetActive(false);
     }
 
 
