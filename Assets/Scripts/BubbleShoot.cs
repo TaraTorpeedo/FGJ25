@@ -87,6 +87,7 @@ public class BubbleShoot : MonoBehaviour
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit_, Mathf.Infinity, aimLayer))
         {
+            Debug.Log(hit_.collider.name);
             Vector3 aimDirection = (hit_.point - GunRotator.transform.position).normalized;
             GunRotator.transform.rotation = Quaternion.LookRotation(aimDirection);
         }
