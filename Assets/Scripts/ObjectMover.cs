@@ -13,9 +13,14 @@ public class ObjectMover : MonoBehaviour
 
     bool SlowedDown = false;
 
+    private Quaternion initialRotation;
+
+    GameObject AttachedGO;
+
     private void Start()
     {
         SetSpeed = speed;
+        initialRotation = transform.rotation;
     }
 
     private void Update()
@@ -29,7 +34,8 @@ public class ObjectMover : MonoBehaviour
 
         transform.position = spline.GetSplinePoint(t);
 
-        if(GetDistanceToGoal() < SlowDownDistance)
+
+        if (GetDistanceToGoal() < SlowDownDistance)
         {
             if (!SlowedDown)
             {
@@ -62,14 +68,23 @@ public class ObjectMover : MonoBehaviour
         {
             ResetPosition();
         }
+        transform.rotation = initialRotation * Quaternion.Euler(0, 10 * Mathf.Sin(t * Mathf.PI), 0);
     }
 
     private void ResetPosition()
     {
+        if(AttachedGO != null)
+        {
+            AttachedGO.GetComponent<PlayerStateMachine>().enabled = true;
+            AttachedGO.GetComponent<Animator>().enabled = true;
+            AttachedGO.GetComponent<Animation>().enabled = false;
+            AttachedGO.transform.SetParent(null);
+        }   
+
         t = 0f; // Reset interpolation value
         transform.position = spline.GetSplinePoint(t); // Update position
-        Vector3 nextPosition = spline.GetSplinePoint(Mathf.Min(t + 0.01f, 1f));
-        transform.forward = (nextPosition - transform.position).normalized;
+
+        transform.rotation = initialRotation * Quaternion.Euler(0, 10 * Mathf.Sin(t * Mathf.PI), 0);
     }
 
     public float GetDistanceToGoal()
@@ -105,6 +120,28 @@ public class ObjectMover : MonoBehaviour
         }
 
         return distance;
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        collision.gameObject.GetComponent<PlayerStateMachine>().enabled = false;
+
+        collision.gameObject.GetComponent<Animator>().enabled = false;
+        collision.gameObject.GetComponent<Animation>().enabled = true;
+
+        collision.gameObject.transform.SetParent(transform);
+
+        collision.gameObject.transform.localPosition = Vector3.zero - new Vector3(0, 0.5f, 0);
+
+        AttachedGO = collision.gameObject;
+    }
+    private void OnTriggerExit(Collider collision)
+    {
+        collision.gameObject.GetComponent<PlayerStateMachine>().enabled = true;
+
+        collision.gameObject.GetComponent<Animator>().enabled = true;
+        collision.gameObject.GetComponent<Animation>().enabled = false;
+        collision.gameObject.transform.SetParent(null);
     }
 
 }
